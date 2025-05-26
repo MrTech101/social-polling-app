@@ -1,0 +1,78 @@
+📊 Social Polling App – Architecture Overview
+The Social Polling App is a full-stack web application that enables users to create, vote on, and view the results of polls. The architecture follows a modular and scalable design, leveraging modern web development best practices.
+
+🏗️ Core Technologies
+Next.js (App Router): Frontend framework for building dynamic, server-side rendered pages and APIs within a unified project.
+
+Supabase: Backend-as-a-Service providing authentication, database (PostgreSQL), and real-time features.
+
+Tailwind CSS: Utility-first CSS framework for responsive and maintainable UI.
+
+TypeScript: Static typing across the project for reliability and developer experience.
+
+🧱 Application Structure
+Frontend
+The frontend uses Next.js 14 App Router architecture, with a clear separation of concerns:
+
+/app: Page routes (e.g., /polls/create, /polls/[id], /auth/login).
+
+/components: Reusable UI components (Navbar, PollCard, VoteButton, ResultsChart).
+
+/lib: Supabase client configuration for centralized API access.
+
+/types: TypeScript interfaces for consistent data modeling (Poll, Option, Vote, User).
+
+/utils: Helper functions, such as input validation.
+
+The UI provides:
+
+Auth Pages: Login/Signup via Supabase Auth.
+
+Polls Pages: Create polls, view details, vote, and see results.
+
+Voting Interaction: Users can cast one vote per poll, with dynamic feedback and charts reflecting vote counts.
+
+Backend
+The backend logic is embedded in Next.js API routes:
+
+/api/polls:
+
+GET: Fetch all polls (id, title, created_at).
+
+POST: Create a new poll (with options and user_id).
+
+/api/polls/[id]:
+
+GET: Fetch a specific poll, its options, and vote counts.
+
+/api/votes:
+
+POST: Cast a vote, ensuring one vote per user per poll.
+
+The backend enforces business rules like one vote per poll per user and validates poll creation with at least two unique options.
+
+🔐 Authentication & Data Flow
+Supabase Auth manages user registration and login. After authentication, user details (user_id) are used for:
+
+Creating polls (polls table, linked by user_id).
+
+Voting (votes table, one vote per poll_id + user_id).
+
+Data relationships:
+
+polls (1) → options (many)
+
+options (1) → votes (many)
+
+📊 Results & Visualization
+Poll results are visualized using a custom ResultsChart component powered by Recharts. Users can view the percentage distribution of votes per option.
+
+🌐 Deployment
+The app is designed for deployment on Vercel with environment variables for Supabase configuration.
+
+📈 Future Improvements
+Realtime voting updates using Supabase Realtime.
+
+Enhanced error handling and toast notifications.
+
+User profiles and poll history features.
